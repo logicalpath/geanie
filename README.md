@@ -1,4 +1,4 @@
-# Logicalpath Prototype
+# geanie is a prototype for a Genealogy Graph using Neo4j & Node.js
 
 This is a first go at building a node app that talks to Neo4j. 
 
@@ -7,6 +7,6 @@ Thanks to this app from Asheem Kishore:
 For helping me get started.
 
 
-This application builds a genealogy graph.
+
 
 
