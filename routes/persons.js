@@ -105,13 +105,16 @@ exports.unfollow = function (req, res, next) {
 };
 
 
-exports.realted = function (req, res, next) {
+exports.related = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
         if (err) return next(err);
         Person.get(req.body.person.id, function (err, other) {
             if (err) return next(err);
-	    var relationships["isSon","isDaughter","isFather","isMother","isBrother","isSister"];
+	    var relationships = ["isSon","isDaughter","isFather","isMother","isBrother","isSister"];
 	    // call related.jade and pass a list of relationships
+	    res.render('related', {
+		    relation : relationships
+	    });
             person.related(other, relationship,function (err) {
                 if (err) return next(err);
                 res.redirect('/persons/' + person.id);

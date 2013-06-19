@@ -103,7 +103,7 @@ Person.prototype.related = function(other, relationship, callback){
          callback(err);
 	});
 
-});
+};
 
 
 

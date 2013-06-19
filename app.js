@@ -35,14 +35,13 @@ app.locals({
 app.get('/', routes.site.index);
 
 app.get('/persons', routes.persons.list);
-app.post('/persons', routes.persons.create);
 app.get('/persons/:id', routes.persons.show);
 app.post('/persons/:id', routes.persons.edit);
 app.del('/persons/:id', routes.persons.del);
 
 app.post('/persons/:id/follow', routes.persons.follow);
 app.post('/persons/:id/unfollow', routes.persons.unfollow);
-app.post('/persons/:id/related', routes.persons.related);
+app.post('persons/:id/related', routes.persons.related);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
