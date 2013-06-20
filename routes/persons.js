@@ -30,21 +30,39 @@ exports.create = function (req, res, next) {
 /**
  * GET /persons/:id
  */
-exports.show = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        // TODO also fetch and show followers? (not just follow*ing*)
-        person.getFollowingAndOthers(function (err, following, others) {
-            if (err) return next(err);
-            res.render('person', {
-                person: person,
-                following: following,
-                others: others
-            });
-        });
-    });
-};
 
+/**
+ exports.show = function (req, res, next) {
+     Person.get(req.params.id, function (err, person) {
+        if (err) return next(err);
+       // TODO also fetch and show followers? (not just follow*ing*)
+         person.getFollowingAndOthers(function (err, following, others) {
+             if (err) return next(err);
+             res.render('person', {
+                 person: person,
+                 following: following,
+                 others: others
+             });
+         });
+     });
+ };
+
+*/
+
+
+exports.show = function (req, res, next) {
+     Person.get(req.params.id, function (err, person) {
+        if (err) return next(err);
+         person.getRelatedAndOthers(function (err, following, others) {
+             if (err) return next(err);
+             res.render('person', {
+                 person: person,
+                 following: following,
+                 others: others
+             });
+         });
+     });
+ };
 /**
  * POST /persons/:id
  */

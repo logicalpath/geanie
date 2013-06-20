@@ -149,6 +149,51 @@ Person.prototype.getFollowingAndOthers = function (callback) {
     });
 };
 
+
+// calls callback w/ (err, following, others) where following is an array of
+// persons this person follows, and others is all other persons minus him/herself.
+
+Person.prototype.getRelatedAndOthers = function (callback) {
+    // query all persons and whether we follow each one or not:
+    	var query = [
+        'START person=node({personId}), other=node:INDEX_NAME(INDEX_KEY="INDEX_VAL")',
+        'MATCH (person) -[rel?:FOLLOWS_REL]-> (other)',
+        'RETURN other, COUNT(rel)'  // COUNT(rel) is a hack for 1 or 0
+    ].join('\n')
+        .replace('INDEX_NAME', INDEX_NAME)
+        .replace('INDEX_KEY', INDEX_KEY)
+        .replace('INDEX_VAL', INDEX_VAL)
+        .replace('FOLLOWS_REL', FOLLOWS_REL);
+
+    var params = {
+        personId: this.id,
+    };
+
+    var person = this;
+    db.query(query, params, function (err, results) {
+        if (err) return callback(err);
+
+        var following = [];
+        var others = [];
+
+        for (var i = 0; i < results.length; i++) {
+            var other = new Person(results[i]['other']);
+            var follows = results[i]['COUNT(rel)'];
+
+            if (person.id === other.id) {
+                continue;
+            } else if (follows) {
+                following.push(other);
+            } else {
+                others.push(other);
+            }
+        }
+
+        callback(null, following, others);
+    });
+};
+
+
 // static methods:
 
 Person.get = function (id, callback) {
