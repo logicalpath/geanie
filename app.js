@@ -27,7 +27,7 @@ if ('development' == app.get('env')) {
 }
 
 app.locals({
-    title: 'LogicalPath Protype'    // default title
+    title: 'LogicalPath Geanie'    // default title
 });
 
 // Routes

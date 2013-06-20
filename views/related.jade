@@ -6,22 +6,10 @@ block content
     p
         a(href='/persons') Back to everyone
 
-    if following.length
-        p #{person.name} is following #{following.length} persons:
-        // TODO should say 'person' if only one! ;)
-        ul.persons
-            for other in following
-                li.person
-                    form(action='/persons/#{person.id}/unfollow', method='POST')
-                        a(href='/persons/#{other.id}') #{other.name}
-                        input(type='hidden', name='person[id]', value='#{other.id}')
-                        input(type='submit', class='unfollow', value='x')
-    else
-        p #{person.name} isn't following anyone currently.
 
     if others.length
-        form(action='/persons/#{person.id}/follow', method='POST')
-            p Add someone for #{person.name} to follow:
+        form(action='/persons/#{person.id}/related', method='POST')
+            p Add a relationship to #{person.name}:
             label
                 select(name='person[id]', required)
                     option(value='')
@@ -36,7 +24,3 @@ block content
         input(type='text', name='name', placeholder='#{person.name}', required)
         input(type='submit', value='Update')
 
-    form(action='/persons/#{person.id}', method='POST', onsubmit='return confirm("Are you sure?");')
-        p And if you're feeling destructive…
-        input(type='hidden', name='_method', value='DELETE')
-        input(type='submit', value='Delete Person')
