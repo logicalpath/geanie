@@ -41,7 +41,7 @@ app.del('/persons/:id', routes.persons.del);
 
 app.post('/persons/:id/follow', routes.persons.follow);
 app.post('/persons/:id/unfollow', routes.persons.unfollow);
-app.post('persons/:id/related', routes.persons.related);
+app.post('/persons/:id/related', routes.persons.related);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
