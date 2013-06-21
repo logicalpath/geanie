@@ -31,41 +31,27 @@ exports.create = function (req, res, next) {
  * GET /persons/:id
  */
 
-/**
- exports.show = function (req, res, next) {
-     Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-       // TODO also fetch and show followers? (not just follow*ing*)
-         person.getFollowingAndOthers(function (err, following, others) {
-             if (err) return next(err);
-             res.render('person', {
-                 person: person,
-                 following: following,
-                 others: others
-             });
-         });
-     });
- };
-
-*/
-
-
 exports.show = function (req, res, next) {
      Person.get(req.params.id, function (err, person) {
         if (err) return next(err);
-         person.getRelatedAndOthers(function (err, following, others) {
+	    person.getRelatedAndOthers(function(err, following, others){
+         // person.getFollowingAndOthers(function (err, following, others) {
              if (err) return next(err);
 	    var relationships = ["isSon","isDaughter","isFather","isMother","isBrother","isSister"];
 	    // call related.jade and pass a list of relationships
+
 	    res.render('related', {
-		 relation : relationships,
                  person: person,
+		 relation : relationships,
+		 //following: following,
                  others: others
 	    });
-             });
          });
-     };
+     });
+};
  
+
+
 /**
  * POST /persons/:id
  */
@@ -131,7 +117,8 @@ exports.related = function (req, res, next) {
         if (err) return next(err);
         Person.get(req.body.person.id, function (err, other) {
             if (err) return next(err);
-	    var relationships = ["isSon","isDaughter","isFather","isMother","isBrother","isSister"];
+	    var relationship = "related";
+
             person.related(other, relationship,function (err) {
                 if (err) return next(err);
                 res.redirect('/persons/' + person.id);

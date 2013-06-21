@@ -7,7 +7,6 @@ block content
         a(href='/persons') Back to everyone
 
 
-    if others.length
         form(action='/persons/#{person.id}/related', method='POST')
             p Add a relationship to #{person.name}:
             label
@@ -16,7 +15,7 @@ block content
                     for person in others
                         option(value='#{person.id}') #{person.name}
             input(type='submit', value='Related')
-    else
-        p There's no one else left for #{person.name} to follow!
+//        p There's no one else left for #{person.name} to follow!
 
 
+     form(action='/persons/#{person.id}', method='POST', onsubmit='return confirm("Are you sure?");')
