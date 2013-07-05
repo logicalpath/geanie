@@ -27,28 +27,6 @@ exports.create = function (req, res, next) {
     });
 };
 
-/**
- * GET /persons/:id
- */
-
-exports.show = function (req, res, next) {
-     Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-	    person.getRelatedAndOthers(function(err, following, others){
-         // person.getFollowingAndOthers(function (err, following, others) {
-             if (err) return next(err);
-	    var relationships = ["isSon","isDaughter","isFather","isMother","isBrother","isSister"];
-	    // call related.jade and pass a list of relationships
-
-	    res.render('related', {
-                 person: person,
-		 relation : relationships,
-		 //following: following,
-                 others: others
-	    });
-         });
-     });
-};
  
 
 
@@ -79,37 +57,6 @@ exports.del = function (req, res, next) {
     });
 };
 
-/**
- * POST /persons/:id/follow
- */
-exports.follow = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-/**
- * POST /persons/:id/unfollow
- */
-exports.unfollow = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.unfollow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
 
 
 exports.related = function (req, res, next) {
@@ -126,96 +73,5 @@ exports.related = function (req, res, next) {
         });
     });
 };
-
-exports.isSon = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.related(other, 'isSon', function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-exports.isDaughter = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-
-exports.isFather = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-
-
-
-exports.isMother = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-
-exports.isSister = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-exports.isBrother = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-            person.follow(other, function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
-
-
 
 
