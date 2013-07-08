@@ -6,10 +6,6 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_URL || 'http://localhost:7474
 
 // constants:
 
-var INDEX_NAME = 'nodes';
-var INDEX_KEY = 'type';
-var INDEX_VAL = 'person';
-
 
 // private constructor:
 
@@ -78,10 +74,15 @@ Person.get = function (id, callback) {
 };
 
 Person.getAll = function (callback) {
-    db.getIndexedNodes(INDEX_NAME, INDEX_KEY, INDEX_VAL, function (err, nodes) {
+    db.getIndexedNodes('node_auto_index',
+		       'type', 
+		       'person', 
+		       function (err, nodes) {
         // if (err) return callback(err);
         // XXX FIXME the index might not exist in the beginning, so special-case
         // this error detection. warning: this is super brittle!!
+
+
         if (err) return callback(null, []);
         var persons = nodes.map(function (node) {
             return new Person(node);

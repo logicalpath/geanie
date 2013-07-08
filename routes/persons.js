@@ -16,6 +16,21 @@ exports.list = function (req, res, next) {
 };
 
 /**
+*  * GET /person/:id
+*   */
+exports.show = function (req, res, next) {
+    Person.get(req.params.id, function (err, person) {
+          if (err) return next(err);
+	  console.log(person.type);
+          res.render('person', {
+		  person: person
+          })
+
+    });
+};
+
+
+/**
  * POST /persons
  */
 exports.create = function (req, res, next) {

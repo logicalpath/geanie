@@ -33,9 +33,12 @@ app.locals({
 // Routes
 
 app.get('/', routes.site.index);
-
 app.get('/persons', routes.persons.list);
 app.post('/persons', routes.persons.create);
+app.get('/persons/:id', routes.persons.show);
+
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
