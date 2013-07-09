@@ -26,6 +26,15 @@ Object.defineProperty(Person.prototype, 'exists', {
     get: function () { return this._node.exists; }
 });
 
+
+Object.defineProperty(Person.prototype, 'type', {
+    get: function () { return this._node.data['type']; }
+});
+
+Object.defineProperty(Person.prototype, 'born', {
+    get: function () { return this._node.data['born']; }
+});
+
 Object.defineProperty(Person.prototype, 'name', {
     get: function () {
         return this._node.data['name'];

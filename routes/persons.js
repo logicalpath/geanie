@@ -21,7 +21,7 @@ exports.list = function (req, res, next) {
 exports.show = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-	  console.log(person.type);
+	  console.log("in route", person.type);
           res.render('person', {
 		  person: person
           })
