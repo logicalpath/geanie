@@ -87,10 +87,6 @@ Person.getAll = function (callback) {
 		       'type', 
 		       'person', 
 		       function (err, nodes) {
-        // if (err) return callback(err);
-        // XXX FIXME the index might not exist in the beginning, so special-case
-        // this error detection. warning: this is super brittle!!
-
 
         if (err) return callback(null, []);
         var persons = nodes.map(function (node) {
@@ -99,6 +95,11 @@ Person.getAll = function (callback) {
         callback(null, persons);
     });
 };
+
+// getOffspring (aka children)
+
+// getInheretedFrom (aka parents)
+
 
 // creates the person and persists (saves) it to the db, autoindex is assumed (for now)
 Person.create = function (data, callback) {
