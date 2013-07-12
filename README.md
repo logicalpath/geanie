@@ -2,8 +2,9 @@
 
 This is a first go at building a node app that talks to Neo4j. 
 
-Thanks to this app from Asheem Kishore:
- [http://node-neo4j-template.com/](http://node-neo4j-template.com/).  
+Thanks to this app [http://node-neo4j-template.com/](http://node-neo4j-template.com/) 
+from [Asheem Kishore] (https://github.com/aseemk)
+  
 For helping me get started.
 
 
