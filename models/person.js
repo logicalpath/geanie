@@ -44,9 +44,6 @@ Object.defineProperty(Person.prototype, 'name', {
     }
 });
 
-// private instance methods:
-
-
 // public instance methods:
 
 Person.prototype.save = function (callback) {
@@ -60,16 +57,6 @@ Person.prototype.del = function (callback) {
         callback(err);
     }, true);   // true = yes, force it (delete all relationships)
 };
-
-
-
-Person.prototype.related = function(other, relationship, callback){
-     this._node.createRelationshipTo(other._node, relationship, {}, function (err, rel){
-         callback(err);
-	});
-
-};
-
 
 
 

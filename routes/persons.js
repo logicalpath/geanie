@@ -78,19 +78,4 @@ exports.del = function (req, res, next) {
 
 
 
-exports.related = function (req, res, next) {
-    Person.get(req.params.id, function (err, person) {
-        if (err) return next(err);
-        Person.get(req.body.person.id, function (err, other) {
-            if (err) return next(err);
-	    var relationship = "related";
-
-            person.related(other, relationship,function (err) {
-                if (err) return next(err);
-                res.redirect('/persons/' + person.id);
-            });
-        });
-    });
-};
-
 
