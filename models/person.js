@@ -75,12 +75,12 @@ Person.get = function (id, callback) {
                 ID:p.id
         };
 
-    db.query(query, params, function (err, results) {
-       if (err) return callback(err);
-       callback(null,p,results);
-        });
+//    db.query(query, params, function (err, results) {
+//       if (err) return callback(err);
+//       callback(null,p,results);
+//        });
 
-
+       callback(null,p);
     })
 
 };
