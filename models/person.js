@@ -6,6 +6,7 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_URL || 'http://localhost:7474
 
 // constants:
 
+INHERITS_Y='INHERITS_Y'
 
 // private constructor:
 
@@ -61,13 +62,29 @@ Person.prototype.del = function (callback) {
 
 
 // static methods:
-
 Person.get = function (id, callback) {
     db.getNodeById(id, function (err, node) {
         if (err) return callback(err);
-        callback(null, new Person(node));
-    });
+    var p = new Person(node);
+    
+    var query = ['START a = node(id)',
+                 'MATCH a-[rel:INHERITS_Y]-> m',
+		 'RETURN m'
+         	].join('\n');
+     var params = {
+                ID:p.id
+        };
+
+    db.query(query, params, function (err, results) {
+       if (err) return callback(err);
+       callback(null,p,results);
+        });
+
+
+    })
+
 };
+
 
 Person.getAll = function (callback) {
     db.getIndexedNodes('node_auto_index',
@@ -83,9 +100,7 @@ Person.getAll = function (callback) {
     });
 };
 
-// getOffspring (aka children)
 
-// getInheretedFrom (aka parents)
 
 
 // creates the person and persists (saves) it to the db, autoindex is assumed (for now)

@@ -19,8 +19,8 @@ CREATE (megginlasaterdickey {type:'person',name:'Meggin Lasater Dickey', born:19
 
 
 CREATE
-  (thomasjefferydickey)-[:INHERTS_Y]-> (eddiedickey),
-  (thomasjefferydickey)-[:INHERTS_X]-> (megginlasaterdickey),
+  (thomasjefferydickey)-[:INHERITS_Y]-> (eddiedickey),
+  (thomasjefferydickey)-[:INHERITS_X]-> (megginlasaterdickey),
   (clairefrancesdickey)-[:INHERITS_X]->(eddiedickey),
   (clairefrancesdickey)-[:INHERITS_X]->(megginlasaterdickey)
 
