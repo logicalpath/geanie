@@ -65,9 +65,14 @@ Person.prototype.del = function (callback) {
 Person.get = function (id, callback) {
     db.getNodeById(id, function (err, node) {
         if (err) return callback(err);
-    var p = new Person(node);
-    
-    var query = ['START a = node(id)',
+        var p = new Person(node);
+        callback(null,p);
+    })
+
+};
+
+/**
+    var query = ['START a = node(1)',
                  'MATCH a-[rel:INHERITS_Y]-> m',
 		 'RETURN m'
          	].join('\n');
@@ -75,16 +80,14 @@ Person.get = function (id, callback) {
                 ID:p.id
         };
 
-//    db.query(query, params, function (err, results) {
-//       if (err) return callback(err);
-//       callback(null,p,results);
-//        });
+    db.query(query, params, function (err, results) {
+       if (err) return callback(err);
+       callback(null,p,results);
+        });
 
        callback(null,p);
     })
-
-};
-
+**/
 
 Person.getAll = function (callback) {
     db.getIndexedNodes('node_auto_index',
