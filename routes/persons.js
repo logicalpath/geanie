@@ -21,14 +21,12 @@ exports.list = function (req, res, next) {
 exports.show = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
+	  person.getInbound(function (err, inbound) {
 	  res.render('person', {
 		  person: person
-		  // pass offspring
-		  // pass inheretedFrom
-          })
-
-
-    });
+	  })
+	  })
+    })
 };
 
 

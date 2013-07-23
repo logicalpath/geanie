@@ -6,7 +6,6 @@ var db = new neo4j.GraphDatabase(process.env.NEO4J_URL || 'http://localhost:7474
 
 // constants:
 
-INHERITS_Y='INHERITS_Y'
 
 // private constructor:
 
@@ -60,7 +59,36 @@ Person.prototype.del = function (callback) {
 };
 
 
+Person.prototype.getInbound = function(callback) {
+	var query = ['START p=node({ID})',
+                     'MATCH p <-[:INHERITS_Y|INHERITS_X]- m',
+		     'RETURN m'
+	].join('\n');
 
+        var params = {
+          ID: this.id,
+	  NAME: this.name
+        }; 
+        
+        console.log("In getInbound function");
+        console.log("this.name is  ",this.name);
+        var in_nodes = [];               
+
+       db.query(query, params, function (err, results) {
+	       console.log("Error from the query ",err);
+	    if (err) return callback(err);
+            console.log("Number of elements in array returned from query: ", results.length);
+            for (var i=0; i< results.length; i++) {
+		    console.log(" In the for loop, var i = ",i);
+	       var in_node = new Person(results[i]);
+	       console.log("New Person object created  from array element ", in_node);
+	       in_nodes.push(in_node);    
+	      }
+	     callback(null, in_nodes);
+         });
+
+};
+ 
 // static methods:
 Person.get = function (id, callback) {
     db.getNodeById(id, function (err, node) {
@@ -71,23 +99,6 @@ Person.get = function (id, callback) {
 
 };
 
-/**
-    var query = ['START a = node(1)',
-                 'MATCH a-[rel:INHERITS_Y]-> m',
-		 'RETURN m'
-         	].join('\n');
-     var params = {
-                ID:p.id
-        };
-
-    db.query(query, params, function (err, results) {
-       if (err) return callback(err);
-       callback(null,p,results);
-        });
-
-       callback(null,p);
-    })
-**/
 
 Person.getAll = function (callback) {
     db.getIndexedNodes('node_auto_index',
