@@ -66,8 +66,8 @@ Person.prototype.getInbound = function(callback) {
 	].join('\n');
 
         var params = {
-          ID: this.id,
-	  NAME: this.name
+		ID:this.id,
+
         }; 
         
         console.log("In getInbound function");
@@ -81,6 +81,8 @@ Person.prototype.getInbound = function(callback) {
             for (var i=0; i< results.length; i++) {
 		    console.log(" In the for loop, var i = ",i);
 	       var in_node = new Person(results[i]);
+	       var iname = in_node.name;
+	       console.log(iname.name);
 	       console.log("New Person object created  from array element ", in_node);
 	       in_nodes.push(in_node);    
 	      }
