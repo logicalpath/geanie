@@ -70,20 +70,13 @@ Person.prototype.getInbound = function(callback) {
 
         }; 
         
-        console.log("In getInbound function");
-        console.log("this.name is  ",this.name);
         var in_nodes = [];               
 
        db.query(query, params, function (err, results) {
 	       console.log("Error from the query ",err);
 	    if (err) return callback(err);
-            console.log("Number of elements in array returned from query: ", results.length);
             for (var i=0; i< results.length; i++) {
-		    console.log(" In the for loop, var i = ",i);
-	       var in_node = new Person(results[i]);
-	       var iname = in_node.name;
-	       console.log(iname.name);
-	       console.log("New Person object created  from array element ", in_node);
+	       var in_node = new Person(results[i]['m']);
 	       in_nodes.push(in_node);    
 	      }
 	     callback(null, in_nodes);

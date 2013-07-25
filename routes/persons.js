@@ -23,7 +23,8 @@ exports.show = function (req, res, next) {
           if (err) return next(err);
 	  person.getInbound(function (err, inbound) {
 	  res.render('person', {
-		  person: person
+		  person: person,
+		  inbound: inbound
 	  })
 	  })
     })

@@ -4,8 +4,12 @@ block content
     h1 #{person.name}
 
     p 
-            Born: #{person.born}
-
+          p  Born: #{person.born}
+    p        
+            if inbound.length
+              p Offspring:
+              for individual in inbound
+                li.inbound #{individual.name} 
     
     
     p
