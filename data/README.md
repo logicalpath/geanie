@@ -1,6 +1,6 @@
-* Adding Data to the Graph
+# Adding Data to the Graph
 
-** Steps
+## Steps
 
 1. Make sure Neo4j is not running
 2. Enable auto_node_complete in the neo4j.properties file
