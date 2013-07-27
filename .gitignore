@@ -1,7 +1,7 @@
 # Files to ignore 
 *.swp
-*.history
-
+.shell_history
+.DS_Store
 
 # Directories
 node_modules/*
