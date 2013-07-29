@@ -22,9 +22,12 @@ exports.show = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
 	  person.getInbound(function (err, inbound) {
+          person.getOutbound(function (err, outbound) {
 	  res.render('person', {
 		  person: person,
-		  inbound: inbound
+		  inbound: inbound,
+		  outbound: outbound
+	  })
 	  })
 	  })
     })

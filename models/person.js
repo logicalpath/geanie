@@ -70,21 +70,48 @@ Person.prototype.getInbound = function(callback) {
 
         }; 
         
-        var in_nodes = [];               
+        var in_nodes = []; 
 
        db.query(query, params, function (err, results) {
 	       console.log("Error from the query ",err);
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
 	       var in_node = new Person(results[i]['m']);
-	       in_nodes.push(in_node);    
+	       in_nodes.push(in_node);
 	      }
 	     callback(null, in_nodes);
          });
 
 };
- 
+
+
+Person.prototype.getOutbound = function(callback) {
+	var query = ['START p=node({ID})',
+                     'MATCH p -[:INHERITS_Y|INHERITS_X]-> m',
+		     'RETURN m'
+	].join('\n');
+
+        var params = {
+		ID:this.id,
+
+        }; 
+        
+        var out_nodes = []; 
+
+       db.query(query, params, function (err, results) {
+	       console.log("Error from the query ",err);
+	    if (err) return callback(err);
+            for (var i=0; i< results.length; i++) {
+	       var out_node = new Person(results[i]['m']);
+	       out_nodes.push(out_node);
+	      }
+	     callback(null, out_nodes);
+         });
+
+};
+
 // static methods:
+
 Person.get = function (id, callback) {
     db.getNodeById(id, function (err, node) {
         if (err) return callback(err);

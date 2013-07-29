@@ -10,7 +10,11 @@ block content
               p Offspring:
               for individual in inbound
                 li.inbound #{individual.name} 
-    
+    p
+            if outbound.length
+              p Genetic Parents:
+              for individual in outbound
+                li.outbound #{individual.name}
     
     p
             a(href='/persons') Back to everyone
