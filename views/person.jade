@@ -9,17 +9,18 @@ block content
             if inbound.length
               p Offspring:
               for individual in inbound
-                li.inbound #{individual.name} 
+                li.inbound 
+                 a(href='/persons/#{individual.id}') #{individual.name} 
     p
             if outbound.length
               p Genetic Parents:
               for individual in outbound
-                li.outbound #{individual.name}
-    
+                li.outbound 
+                  a(href='/persons/#{individual.id}') #{individual.name} 
     p
             a(href='/persons') Back to everyone
 
     
-            
+a(href='/users/#{user.id}') #{user.name}            
 
 
