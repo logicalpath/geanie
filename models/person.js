@@ -141,6 +141,7 @@ Person.getAll = function (callback) {
 
 // creates the person and persists (saves) it to the db, autoindex is assumed (for now)
 Person.create = function (data, callback) {
+	console.log(data);
     var node = db.createNode(data);
     var person = new Person(node);
     node.save(function (err, node) {

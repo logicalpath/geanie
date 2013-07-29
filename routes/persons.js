@@ -39,7 +39,9 @@ exports.show = function (req, res, next) {
  */
 exports.create = function (req, res, next) {
     Person.create({
-        name: req.body['name']
+        name: req.body['name'],
+	born: req.body['born'],
+	type: 'person'
     }, function (err, person) {
         if (err) return next(err);
         res.redirect('/persons/' + person.id);
