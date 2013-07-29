@@ -1,6 +1,6 @@
 { "name": "LogicapathPrototype"
 	, "description": "A genealogy graph app using Node.js + Neo4j app."
-	, "version": "0.0.1"
+	, "version": "0.0.2"
 	, "author": "Eddie Dickey <eddie@logicalpath.com>"
 	, "private": true
 	, "dependencies":
