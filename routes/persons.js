@@ -80,4 +80,39 @@ exports.del = function (req, res, next) {
 
 
 
+/**
+ *  * POST /persons/:id/inheritX
+ *   */
+exports.inheritX = function (req, res, next) {
+    Person.get(req.params.id, function (err, perosn) {
+          if (err) return next(err);
+          Person.get(req.body.user.id, function (err, other) {
+          if (err) return next(err);
+	  var XY = 'INHERETS_X';
+          person.inherit(other, XY, function (err) {
+          if (err) return next(err);
+          res.redirect('/persons/' + person.id);
+									                });
+      });
+    });
+};
+
+
+/**
+ *  * POST /persons/:id/inheritY
+ *   */
+exports.inheritY = function (req, res, next) {
+    Person.get(req.params.id, function (err, perosn) {
+          if (err) return next(err);
+          Person.get(req.body.user.id, function (err, other) {
+          if (err) return next(err);
+	  var XY = 'INHERITS_Y'
+          person.inherit(other, XY, function (err) {
+          if (err) return next(err);
+          res.redirect('/persons/' + person.id);
+									                });
+      });
+    });
+};
+
 

@@ -110,6 +110,12 @@ Person.prototype.getOutbound = function(callback) {
 
 };
 
+Person.prototype.inherit = function (other, XY,  callback) {
+    this._node.createRelationshipTo(other._node, XY, {}, function (err, rel) {
+           callback(err);
+	      });
+	};
+
 // static methods:
 
 Person.get = function (id, callback) {

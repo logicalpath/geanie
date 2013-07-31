@@ -36,7 +36,8 @@ app.get('/', routes.site.index);
 app.get('/persons', routes.persons.list);
 app.post('/persons', routes.persons.create);
 app.get('/persons/:id', routes.persons.show);
-
+app.post('/persons/:id/inheritX', routes.persons.inheritX);
+app.post('/persons/:id/inheritY', routes.persons.inheritY);
 
 
 
