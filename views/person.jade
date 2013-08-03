@@ -11,20 +11,22 @@ block content
               for individual in inbound
                 li.inbound 
                  a(href='/persons/#{individual.id}') #{individual.name} 
+
+            p You can allways add offspring...     
     p
             if outbound.length
-              p Genetic Parents:
+              p Genetic Parents: 
               for individual in outbound
                 li.outbound 
                   a(href='/persons/#{individual.id}') #{individual.name} 
-
+             
+             if outbound.length > 1
+                     p You have max parents 
+             else if outbound.length == 1
+                     p You can add 1 parent
+             else 
+                     p You can add 2 parents
     p
-           p Adding relationships goes here... 
-
-
-
-
-p
             a(href='/persons') Back to everyone
 
     
