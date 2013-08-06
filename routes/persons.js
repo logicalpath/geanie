@@ -21,17 +21,24 @@ exports.list = function (req, res, next) {
 exports.show = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-	  person.getInbound(function (err, inbound) {
+	  person.getInboundX(function (err, inboundX) {
           if(err) return next(err);
-          person.getOutbound(function (err, outbound) {
+	  person.getInboundY(function (err, inboundY) {
           if(err) return next(err);
+          person.getOutboundX(function (err, outboundX) {
+          if(err) return next(err);
+          person.getOutboundY(function (err, outboundY) {
 	  res.render('person', {
 		  person: person,
-		  inbound: inbound,
-		  outbound: outbound
+		  inboundX: inboundX,
+		  inboundY: inboundY,
+		  outboundX: outboundX,
+		  outboundY: outboundY
 	  })
 	  })
 	  })
+	  })
+    })
     })
 };
 

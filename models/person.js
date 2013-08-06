@@ -59,9 +59,25 @@ Person.prototype.del = function (callback) {
 };
 
 
-Person.prototype.getInbound = function(callback) {
+Person.prototype.getPaternals = function(callback) {
+    var query = ['START p=node({ID})',
+                'MATCH  p-[r]-a',
+	        'RETURN a'
+     ].join('\n');
+
+        var params = {
+		ID:this.id,
+
+        }; 
+
+
+
+
+};
+
+Person.prototype.getInboundX = function(callback) {
 	var query = ['START p=node({ID})',
-                     'MATCH p <-[:INHERITS_Y|INHERITS_X]- m',
+                     'MATCH p <-[:INHERITS_X]- m',
 		     'RETURN m'
 	].join('\n');
 
@@ -84,10 +100,60 @@ Person.prototype.getInbound = function(callback) {
 
 };
 
-
-Person.prototype.getOutbound = function(callback) {
+Person.prototype.getInboundY = function(callback) {
 	var query = ['START p=node({ID})',
-                     'MATCH p -[:INHERITS_Y|INHERITS_X]-> m',
+                     'MATCH p <-[:INHERITS_Y]- m',
+		     'RETURN m'
+	].join('\n');
+
+        var params = {
+		ID:this.id,
+
+        }; 
+        
+        var in_nodes = []; 
+
+       db.query(query, params, function (err, results) {
+	       console.log("Error from the query ",err);
+	    if (err) return callback(err);
+            for (var i=0; i< results.length; i++) {
+	       var in_node = new Person(results[i]['m']);
+	       in_nodes.push(in_node);
+	      }
+	     callback(null, in_nodes);
+         });
+
+};
+
+Person.prototype.getOutboundX = function(callback) {
+	var query = ['START p=node({ID})',
+                     'MATCH p -[:INHERITS_X]-> m',
+		     'RETURN m'
+	].join('\n');
+
+        var params = {
+		ID:this.id,
+
+        }; 
+        
+        var out_nodes = []; 
+
+       db.query(query, params, function (err, results) {
+	       console.log("Error from the query ",err);
+	    if (err) return callback(err);
+            for (var i=0; i< results.length; i++) {
+	       var out_node = new Person(results[i]['m']);
+	       out_nodes.push(out_node);
+	      }
+	     callback(null, out_nodes);
+         });
+
+};
+
+
+Person.prototype.getOutboundY = function(callback) {
+	var query = ['START p=node({ID})',
+                     'MATCH p -[:INHERITS_Y]-> m',
 		     'RETURN m'
 	].join('\n');
 

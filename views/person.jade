@@ -4,32 +4,33 @@ block content
     h1 #{person.name}
 
     p 
-          p  Born: #{person.born}
-    p        
-            if inbound.length
-              p Offspring:
-              for individual in inbound
-                li.inbound 
+            p  Born: #{person.born}
+    p      
+            p Offspring:
+            if inboundX.length
+              for individual in inboundX
+                li.inboundX 
                  a(href='/persons/#{individual.id}') #{individual.name} 
 
-            p You can allways add offspring...     
+            if inboundY.length
+              for individual in inboundY
+                li.inboundY 
+                 a(href='/persons/#{individual.id}') #{individual.name} 
+
+            p Parents: 
     p
-            if outbound.length
-              p Genetic Parents: 
-              for individual in outbound
-                li.outbound 
+            if outboundX.length
+              for individual in outboundX
+                li.outboundX 
                   a(href='/persons/#{individual.id}') #{individual.name} 
              
-             if outbound.length > 1
-                     p You have max parents 
-             else if outbound.length == 1
-                     p You can add 1 parent
-             else 
-                     p You can add 2 parents
+            if outboundY.length
+              for individual in outboundY
+                li.outboundY 
+                  a(href='/persons/#{individual.id}') #{individual.name} 
+
     p
             a(href='/persons') Back to everyone
-
     
-a(href='/users/#{user.id}') #{user.name}            
 
 
