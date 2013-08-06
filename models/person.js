@@ -60,20 +60,46 @@ Person.prototype.del = function (callback) {
 
 
 Person.prototype.getPaternals = function(callback) {
+// Get a list of adjacent nodes with relationships. They are not candidates.
     var query = ['START p=node({ID})',
-                'MATCH  p-[r]-a',
+                'MATCH  p-[r]-a',  // TODO make this specific to Inherits relationships
 	        'RETURN a'
      ].join('\n');
 
         var params = {
 		ID:this.id,
-
         }; 
 
+	var rel_nodes=[];
 
+       db.query(query, params, function (err, results) {
+	    if (err) return callback(err);
+            for (var i=0; i< results.length; i++) {
+	       var in_node = new Person(results[i]['m']);
+	       rel_nodes.push(in_node);
+	      }
+         });
+	 
+    var query = ['START p=node({ID})',
+                'MATCH  p-[r]-a',  // TODO make this specific to Inherits relationships
+	        'RETURN a'
+     ].join('\n');
 
+        var params = {
+		ID:this.id,
+        }; 
 
+       db.query(query, params, function (err, results) {
+	    if (err) return callback(err);
+            for (var i=0; i< results.length; i++) {
+	       var in_node = new Person(results[i]['m']);
+	       in_nodes.push(in_node);
+	      }
+         });
 };
+
+
+
 
 Person.prototype.getInboundX = function(callback) {
 	var query = ['START p=node({ID})',
