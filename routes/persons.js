@@ -50,6 +50,7 @@ exports.create = function (req, res, next) {
     Person.create({
         name: req.body['name'],
 	born: req.body['born'],
+	gender: req.body['gender'],
 	type: 'person'
     }, function (err, person) {
         if (err) return next(err);

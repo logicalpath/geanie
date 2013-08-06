@@ -35,6 +35,10 @@ Object.defineProperty(Person.prototype, 'born', {
     get: function () { return this._node.data['born']; }
 });
 
+Object.defineProperty(Person.prototype, 'gender', {
+    get: function () { return this._node.data['gender']; }
+});
+
 Object.defineProperty(Person.prototype, 'name', {
     get: function () {
         return this._node.data['name'];
@@ -58,9 +62,8 @@ Person.prototype.del = function (callback) {
     }, true);   // true = yes, force it (delete all relationships)
 };
 
-
-Person.prototype.getPaternals = function(callback) {
-// Get a list of adjacent nodes with relationships. They are not candidates.
+Person.prototype.getRelAdjacent = function(callback) {
+// Get a list of adjacent nodes with relationships.
     var query = ['START p=node({ID})',
                 'MATCH  p-[r]-a',  // TODO make this specific to Inherits relationships
 	        'RETURN a'
@@ -75,13 +78,18 @@ Person.prototype.getPaternals = function(callback) {
        db.query(query, params, function (err, results) {
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
-	       var in_node = new Person(results[i]['m']);
-	       rel_nodes.push(in_node);
+	       var rel_node = new Person(results[i]['m']);
+	       rel_nodes.push(rel_node);
 	      }
          });
-	 
+
+	     callback(null, rel_nodes);
+}
+
+Person.prototype.getPaternals = function(callback) {
+    this.getRelAdjacent(adj_nodes);   
     var query = ['START p=node({ID})',
-                'MATCH  p-[r]-a',  // TODO make this specific to Inherits relationships
+                'MATCH  p-[:]-a',
 	        'RETURN a'
      ].join('\n');
 
