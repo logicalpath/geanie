@@ -17,17 +17,22 @@ block content
             p Parents: 
               for individual in outbound
                 li.outbound 
-                  a(href='/persons/#{individual.id}') #{individual.name} 
+                        a(href='/persons/#{individual.id}') #{individual.name} 
     p
             if outbound.length < 2 
-                 p You can add a parent
+               p You can add a parent
                  form(action='/persons/#{person.id}/inherit', method='POST')
-                    label
-                         select(name = 'rel_type')
-                            option(value='paternal') Paternal
-                            option(value='maternal') Maternal
-                            <br>
-                    input(type='submit', value='Add')
+                         button(type='submit',name='numParents',value='') Add
+
+
+
+
+//                    label
+//                         select(name = 'rel_type')
+//                            option(value='paternal') Paternal
+//                            option(value='maternal') Maternal
+//                            <br>
+//                    input(type='submit', value='Add')
 
     p
             a(href='/persons') Back to everyone

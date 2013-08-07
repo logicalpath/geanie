@@ -28,7 +28,7 @@ exports.show = function (req, res, next) {
 	  res.render('person', {
 		  person: person,
 		  inbound: inbound,
-		  outbound: outbound,
+		  outbound: outbound
 	  })
     })
     })
@@ -89,7 +89,6 @@ exports.del = function (req, res, next) {
 exports.inherit = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-	  var rel_type = req.body['rel_type'];
       });
       // render a new page for choosing parent
 };
