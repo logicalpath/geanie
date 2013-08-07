@@ -23,10 +23,10 @@ block content
                  p You can add a parent
                  form(action='/persons/#{person.id}/inherit', method='POST')
                     label
-                         select(name = 'parent_rel')
-                            option(value='XY') Paternal
-                            option(value='XX') Maternal
-                             <br>
+                         select(name = 'rel_type')
+                            option(value='paternal') Paternal
+                            option(value='maternal') Maternal
+                            <br>
                     input(type='submit', value='Add')
 
     p

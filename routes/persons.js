@@ -89,8 +89,9 @@ exports.del = function (req, res, next) {
 exports.inherit = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-          res.redirect('/persons/' + person.id);
+	  var rel_type = req.body['rel_type'];
       });
+      // render a new page for choosing parent
 };
 
 
