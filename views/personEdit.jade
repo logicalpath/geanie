@@ -1,0 +1,41 @@
+extends layout
+
+block content
+    h1 #{person.name}
+    p 
+            p  Born: #{person.born}
+            p  Gender: #{person.gender}
+    p      
+            if inbound.length
+            p Offspring:
+              for individual in inbound
+                li.inbound 
+                 a(href='/persons/#{individual.id}') #{individual.name} 
+
+    p
+            if outbound.length
+            p Parents: 
+              for individual in outbound
+                li.outbound 
+                        a(href='/persons/#{individual.id}') #{individual.name} 
+    p
+            if outbound.length < 2 
+               p You can add a parent
+                 form(action='/persons/#{person.id}/inherit', method='POST')
+                         button(type='submit',name='numParents',value='') Add
+
+
+
+
+//                    label
+//                         select(name = 'rel_type')
+//                            option(value='paternal') Paternal
+//                            option(value='maternal') Maternal
+//                            <br>
+//                    input(type='submit', value='Add')
+
+    p
+            a(href='/persons') Back to everyone
+    
+
+
