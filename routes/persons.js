@@ -21,23 +21,16 @@ exports.list = function (req, res, next) {
 exports.show = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-	  person.getInboundX(function (err, inboundX) {
+	  person.getInbound(function (err, inbound) {
           if(err) return next(err);
-	  person.getInboundY(function (err, inboundY) {
+          person.getOutbound(function (err, outbound) {
           if(err) return next(err);
-          person.getOutboundX(function (err, outboundX) {
-          if(err) return next(err);
-          person.getOutboundY(function (err, outboundY) {
 	  res.render('person', {
 		  person: person,
-		  inboundX: inboundX,
-		  inboundY: inboundY,
-		  outboundX: outboundX,
-		  outboundY: outboundY
+		  inbound: inbound,
+		  outbound: outbound,
 	  })
-	  })
-	  })
-	  })
+    })
     })
     })
 };
@@ -91,38 +84,15 @@ exports.del = function (req, res, next) {
 
 
 /**
- *  * POST /persons/:id/inheritX
+ *  * POST /persons/:id/inherit
  *   */
-exports.inheritX = function (req, res, next) {
-    Person.get(req.params.id, function (err, perosn) {
-          if (err) return next(err);
-          Person.get(req.body.user.id, function (err, other) {
-          if (err) return next(err);
-	  var XY = 'INHERETS_X';
-          person.inherit(other, XY, function (err) {
+exports.inherit = function (req, res, next) {
+    Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
           res.redirect('/persons/' + person.id);
-									                });
       });
-    });
 };
 
 
-/**
- *  * POST /persons/:id/inheritY
- *   */
-exports.inheritY = function (req, res, next) {
-    Person.get(req.params.id, function (err, perosn) {
-          if (err) return next(err);
-          Person.get(req.body.user.id, function (err, other) {
-          if (err) return next(err);
-	  var XY = 'INHERITS_Y'
-          person.inherit(other, XY, function (err) {
-          if (err) return next(err);
-          res.redirect('/persons/' + person.id);
-									                });
-      });
-    });
-};
 
 

@@ -88,6 +88,8 @@ Person.prototype.getRelAdjacent = function(callback) {
 
 Person.prototype.getPaternals = function(callback) {
     this.getRelAdjacent(adj_nodes);   
+    var currentDate = new Date();
+    var year = currentDate.getFullYear();
     var query = ['START p=node({ID})',
                 'MATCH  p-[:]-a',
 	        'RETURN a'
@@ -109,9 +111,9 @@ Person.prototype.getPaternals = function(callback) {
 
 
 
-Person.prototype.getInboundX = function(callback) {
+Person.prototype.getInbound = function(callback) {
 	var query = ['START p=node({ID})',
-                     'MATCH p <-[:INHERITS_X]- m',
+                     'MATCH p <-[:INHERITS_X|INHERITS_Y]- m',
 		     'RETURN m'
 	].join('\n');
 
@@ -134,34 +136,9 @@ Person.prototype.getInboundX = function(callback) {
 
 };
 
-Person.prototype.getInboundY = function(callback) {
+Person.prototype.getOutbound = function(callback) {
 	var query = ['START p=node({ID})',
-                     'MATCH p <-[:INHERITS_Y]- m',
-		     'RETURN m'
-	].join('\n');
-
-        var params = {
-		ID:this.id,
-
-        }; 
-        
-        var in_nodes = []; 
-
-       db.query(query, params, function (err, results) {
-	       console.log("Error from the query ",err);
-	    if (err) return callback(err);
-            for (var i=0; i< results.length; i++) {
-	       var in_node = new Person(results[i]['m']);
-	       in_nodes.push(in_node);
-	      }
-	     callback(null, in_nodes);
-         });
-
-};
-
-Person.prototype.getOutboundX = function(callback) {
-	var query = ['START p=node({ID})',
-                     'MATCH p -[:INHERITS_X]-> m',
+                     'MATCH p -[:INHERITS_X|INHERITS_Y]-> m',
 		     'RETURN m'
 	].join('\n');
 
@@ -184,31 +161,6 @@ Person.prototype.getOutboundX = function(callback) {
 
 };
 
-
-Person.prototype.getOutboundY = function(callback) {
-	var query = ['START p=node({ID})',
-                     'MATCH p -[:INHERITS_Y]-> m',
-		     'RETURN m'
-	].join('\n');
-
-        var params = {
-		ID:this.id,
-
-        }; 
-        
-        var out_nodes = []; 
-
-       db.query(query, params, function (err, results) {
-	       console.log("Error from the query ",err);
-	    if (err) return callback(err);
-            for (var i=0; i< results.length; i++) {
-	       var out_node = new Person(results[i]['m']);
-	       out_nodes.push(out_node);
-	      }
-	     callback(null, out_nodes);
-         });
-
-};
 
 Person.prototype.inherit = function (other, XY,  callback) {
     this._node.createRelationshipTo(other._node, XY, {}, function (err, rel) {
