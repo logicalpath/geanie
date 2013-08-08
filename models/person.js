@@ -118,11 +118,19 @@ Person.prototype.getOutbound = function(callback) {
 };
 
 
-Person.prototype.inherit = function (other, XY,  callback) {
+Person.prototype.inherit = function (other, callback) {
+    console.log(" this is ", this.name);
+    console.log(" parent is ", other.name);
+//  determine if this in an X or Y inheritence
+    if (other.gender == 'male')
+       var XY = 'INHERITS_Y'
+    else
+       var XY = 'INHERITS_X'
+
     this._node.createRelationshipTo(other._node, XY, {}, function (err, rel) {
            callback(err);
 	      });
-	};
+};
 
 // static methods:
 
@@ -166,25 +174,40 @@ Person.create = function (data, callback) {
 
 
 
-Person.findParents = function(person, rel_type, callback) {
+Person.findParents = function(person, callback) {
     var currentDate = new Date();
     var year = currentDate.getFullYear();
-    var age = person.born - year;
+    var age = year - person.born;
+    var currGender = '';
+    
+    person.getOutbound(function (err, outbound) {
+    if(err) return next(err);
+    if (outbound.length) 
+	   currGender = outbound[0].gender; 
+    })
 
-    var query = ['START p=node({ID})',
-                'MATCH  p-[:]-a',
-	        'RETURN a'
-     ].join('\n');
+    var query = ['START p=node({ID}), m=node(*)',
+                 'MATCH  p-[r?]-m',
+		 'WHERE r is NULL',
+	         'RETURN m'
+                ].join('\n');
 
-        var params = {
-		ID:person.id,
-        }; 
-
-       db.query(query, params, function (err, results) {
+        var params = { ID:person.id, Gender:currGender }; 
+        var par_nodes=[];
+        db.query(query, params, function (err, results) {
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
-	       var in_node = new Person(results[i]['m']);
-	       in_nodes.push(in_node);
+	       var par_node = new Person(results[i]['m']);
+	       if (par_node.born < person.born)
+	          par_nodes.push(par_node);
 	      }
-         });
+
+        callback(null, par_nodes); 
+        });
 };
+
+
+
+
+
+

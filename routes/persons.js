@@ -81,6 +81,18 @@ exports.del = function (req, res, next) {
     });
 };
 
+exports.setParent = function (req, res, next) {
+    Person.get(req.params.id, function (err, person) {
+     if (err) return next(err);
+     Person.get(req.body.individual.id, function (err, individual) {
+      if (err) return next(err);
+      person.inherit(individual, function (err) {
+        if (err) return next(err);
+        res.redirect('/persons/' + person.id);
+        });
+      });
+     });
+};
 
 
 /**
@@ -89,10 +101,15 @@ exports.del = function (req, res, next) {
 exports.inherit = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
+          Person.findParents(person, function (err, parents) {
+       	  if (err) return next(err);
+          res.render('personEdit', {
+	           person: person,
+	           parents: parents,
+	  })
+	  })
       });
-      // render a new page for choosing parent
+      
 };
-
-
 
 
