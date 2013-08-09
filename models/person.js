@@ -183,6 +183,8 @@ Person.findParents = function(person, callback) {
     person.getOutbound(function (err, outbound) {
     if(err) return next(err);
     if (outbound.length) 
+
+		console.log("age ",age);
 	   currGender = outbound[0].gender; 
     })
 
@@ -192,9 +194,11 @@ Person.findParents = function(person, callback) {
 	         'RETURN m'
                 ].join('\n');
 
+		var mytest = "hello test";
         var params = { ID:person.id, Gender:currGender }; 
         var par_nodes=[];
         db.query(query, params, function (err, results) {
+		console.log(mytest);
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
 	       var par_node = new Person(results[i]['m']);
