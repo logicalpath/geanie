@@ -183,10 +183,12 @@ Person.findParents = function(person, callback) {
     person.getOutbound(function (err, outbound) {
     if(err) return next(err);
     if (outbound.length) 
-
-		console.log("age ",age);
 	   currGender = outbound[0].gender; 
+		console.log("in func ",currGender);
     })
+
+
+		console.log("out func ",currGender);
 
     var query = ['START p=node({ID}), m=node(*)',
                  'MATCH  p-[r?]-m',
