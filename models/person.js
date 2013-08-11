@@ -81,7 +81,6 @@ Person.prototype.getInbound = function(callback) {
         var in_nodes = []; 
 
        db.query(query, params, function (err, results) {
-	       console.log("Error from the query ",err);
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
 	       var in_node = new Person(results[i]['m']);
@@ -106,7 +105,6 @@ Person.prototype.getOutbound = function(callback) {
         var out_nodes = []; 
 
        db.query(query, params, function (err, results) {
-	       console.log("Error from the query ",err);
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
 	       var out_node = new Person(results[i]['m']);
@@ -119,8 +117,6 @@ Person.prototype.getOutbound = function(callback) {
 
 
 Person.prototype.inherit = function (other, callback) {
-    console.log(" this is ", this.name);
-    console.log(" parent is ", other.name);
 //  determine if this in an X or Y inheritence
     if (other.gender == 'male')
        var XY = 'INHERITS_Y'
@@ -163,7 +159,6 @@ Person.getAll = function (callback) {
 
 // creates the person and persists (saves) it to the db, autoindex is assumed (for now)
 Person.create = function (data, callback) {
-	console.log(data);
     var node = db.createNode(data);
     var person = new Person(node);
     node.save(function (err, node) {
@@ -172,40 +167,35 @@ Person.create = function (data, callback) {
         });
 };
 
+Person.findGender = function(person, callback) {
+       var theGender = '';
+       person.getOutbound(function (err, outbound) {
+       if(err) return callback(err);
+          if (outbound.length) 
+          theGender = outbound[0].gender;
+	  callback(null, theGender); 
+    })
+}
 
-
-Person.findParents = function(person, callback) {
+Person.findParents = function(person, gender, callback) {
     var currentDate = new Date();
     var year = currentDate.getFullYear();
     var age = year - person.born;
-    var currGender = '';
-    
-    person.getOutbound(function (err, outbound) {
-    if(err) return next(err);
-    if (outbound.length) 
-	   currGender = outbound[0].gender; 
-		console.log("in func ",currGender);
-    })
 
+        var query = ['START p=node({ID}), m=node(*)',
+                     'MATCH  p-[r?]-m',
+		     'WHERE r is NULL AND m.gender <> {Gender}',
+	             'RETURN m'
+                    ].join('\n');
 
-		console.log("out func ",currGender);
-
-    var query = ['START p=node({ID}), m=node(*)',
-                 'MATCH  p-[r?]-m',
-		 'WHERE r is NULL',
-	         'RETURN m'
-                ].join('\n');
-
-		var mytest = "hello test";
-        var params = { ID:person.id, Gender:currGender }; 
+        var params = { ID:person.id, Gender:gender }; 
         var par_nodes=[];
         db.query(query, params, function (err, results) {
-		console.log(mytest);
 	    if (err) return callback(err);
             for (var i=0; i< results.length; i++) {
 	       var par_node = new Person(results[i]['m']);
 	       if (par_node.born < person.born)
-	          par_nodes.push(par_node);
+	           par_nodes.push(par_node);
 	      }
 
         callback(null, par_nodes); 

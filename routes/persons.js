@@ -101,12 +101,15 @@ exports.setParent = function (req, res, next) {
 exports.inherit = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-          Person.findParents(person, function (err, parents) {
-       	  if (err) return next(err);
-          res.render('personEdit', {
+          Person.findGender(person, function (err, gender) {
+       	    if (err) return next(err);
+            Person.findParents(person, gender, function (err, parents) {
+       	      if (err) return next(err);
+              res.render('personEdit', {
 	           person: person,
 	           parents: parents,
-	  })
+	      })
+	    })
 	  })
       });
       
