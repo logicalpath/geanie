@@ -5,6 +5,8 @@ block content
     p 
             p  Born: #{person.born}
             p  Gender: #{person.gender}
+    p
+        a(href='/persons') Back to everyone
     p      
             if inbound.length
               p Offspring:
@@ -26,10 +28,6 @@ block content
 
 
 
-
-
-   p
-            a(href='/persons') Back to everyone
     
 
 
