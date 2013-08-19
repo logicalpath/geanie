@@ -7,14 +7,14 @@ block content
             p  Gender: #{person.gender}
     p      
             if inbound.length
-            p Offspring:
+              p Offspring:
               for individual in inbound
                 li.inbound 
                  a(href='/persons/#{individual.id}') #{individual.name} 
 
     p
             if outbound.length
-            p Parents: 
+              p Parents: 
               for individual in outbound
                 li.outbound 
                         a(href='/persons/#{individual.id}') #{individual.name} 
@@ -24,7 +24,11 @@ block content
                  form(action='/persons/#{person.id}/inherit', method='POST')
                          button(type='submit',name='numParents',value='') Add
 
-    p
+
+
+
+
+   p
             a(href='/persons') Back to everyone
     
 

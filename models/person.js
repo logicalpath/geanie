@@ -56,6 +56,8 @@ Person.prototype.save = function (callback) {
     });
 };
 
+
+// Create a cypher query instead of using API
 Person.prototype.del = function (callback) {
     this._node.del(function (err) {
         callback(err);
