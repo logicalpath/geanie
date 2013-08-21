@@ -4,19 +4,19 @@
 var neo4j = require('neo4j');
 var db = new neo4j.GraphDatabase(process.env.NEO4J_URL || 'http://localhost:7474');
 
-// constants:
 
 
-// private constructor:
+/** private constructor: */
 
 var Person = module.exports = function Person(_node) {
-    // all we'll really store is the node; the rest of our properties will be
-    // derivable or just pass-through properties (see below).
+    /** all we'll really store is the node; the rest of our properties will be
+        derivable or just pass-through properties (see below). */
 
     this._node = _node;
 }
 
-// public instance properties:
+// public instance properties: 
+
 
 Object.defineProperty(Person.prototype, 'id', {
     get: function () { return this._node.id; }
@@ -118,19 +118,33 @@ Person.prototype.getOutbound = function(callback) {
 };
 
 
-Person.prototype.inherit = function (other, callback) {
-//  determine if this in an X or Y inheritence
-    if (other.gender == 'male')
-       var XY = 'INHERITS_Y'
-    else
-       var XY = 'INHERITS_X'
+Person.prototype.inherit = function (parent, callback) {
+    /** Determine if this is an X or Y relationship */
+
+   switch (parent.gender)
+    {
+     case "male":
+      if (this.gender = 'male')
+       var XY = 'INHERITS_Y';
+      else
+       var XY = 'INHERITS_X';
+      break;
+
+     case "female":
+       var XY = 'INHERITS_X';
+       break;
+
+     default:
+     break;
+
+    }
 
     this._node.createRelationshipTo(other._node, XY, {}, function (err, rel) {
            callback(err);
 	      });
 };
 
-// static methods:
+/**  static methods: */
 
 Person.get = function (id, callback) {
     db.getNodeById(id, function (err, node) {
@@ -169,17 +183,17 @@ Person.create = function (data, callback) {
         });
 };
 
-Person.findGender = function(person, callback) {
+Person.getExistingParentGender = function(person, callback) {
        var theGender = '';
        person.getOutbound(function (err, outbound) {
        if(err) return callback(err);
-          if (outbound.length) 
+          if (outbound.length)  /** if there is already one parent */
           theGender = outbound[0].gender;
 	  callback(null, theGender); 
     })
 }
 
-Person.findParents = function(person, gender, callback) {
+Person.findPossibleParents = function(person, gender, callback) {
     var currentDate = new Date();
     var year = currentDate.getFullYear();
     var age = year - person.born;

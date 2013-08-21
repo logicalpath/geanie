@@ -82,10 +82,13 @@ exports.del = function (req, res, next) {
 };
 
 exports.setParent = function (req, res, next) {
+    /** get the child */
     Person.get(req.params.id, function (err, person) {
      if (err) return next(err);
+     /** get the parent */
      Person.get(req.body.individual.id, function (err, individual) {
       if (err) return next(err);
+      /** set the relationship */
       person.inherit(individual, function (err) {
         if (err) return next(err);
         res.redirect('/persons/' + person.id);
@@ -98,12 +101,12 @@ exports.setParent = function (req, res, next) {
 /**
  *  * POST /persons/:id/inherit
  *   */
-exports.inherit = function (req, res, next) {
+exports.addParent = function (req, res, next) {
     Person.get(req.params.id, function (err, person) {
           if (err) return next(err);
-          Person.findGender(person, function (err, gender) {
+          Person.getExistingParentGender(person, function (err, gender) {
        	    if (err) return next(err);
-            Person.findParents(person, gender, function (err, parents) {
+            Person.findPossibleParents(person, gender, function (err, parents) {
        	      if (err) return next(err);
               res.render('personEdit', {
 	           person: person,
