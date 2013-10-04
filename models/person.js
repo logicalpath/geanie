@@ -120,7 +120,6 @@ Person.prototype.getOutbound = function(callback) {
 
 Person.prototype.inherit = function (parent, callback) {
     /** Determine if this is an X or Y relationship */
-console.log("I'm in the model prototype..");
    switch (parent.gender)
     {
      case "male":

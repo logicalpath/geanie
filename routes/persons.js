@@ -90,7 +90,6 @@ exports.setParent = function (req, res, next) {
       if (err) return next(err);
       /** set the relationship */
       person.inherit(individual, function (err) {
-	      console.log("In the route. Error is ", err);
         if (err) return next(err);
         res.redirect('/persons/' + person.id);
         });
