@@ -120,7 +120,7 @@ Person.prototype.getOutbound = function(callback) {
 
 Person.prototype.inherit = function (parent, callback) {
     /** Determine if this is an X or Y relationship */
-
+console.log("I'm in the model prototype..");
    switch (parent.gender)
     {
      case "male":
@@ -139,7 +139,7 @@ Person.prototype.inherit = function (parent, callback) {
 
     }
 
-    this._node.createRelationshipTo(other._node, XY, {}, function (err, rel) {
+    this._node.createRelationshipTo(parent._node, XY, {}, function (err, rel) {
            callback(err);
 	      });
 };

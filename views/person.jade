@@ -23,7 +23,7 @@ block content
     p
             if outbound.length < 2 
                p You can add a parent
-                 form(action='/persons/#{person.id}/inherit', method='POST')
+                 form(action='/persons/#{person.id}/addParent', method='POST')
                          button(type='submit',name='numParents',value='') Add
 
 
