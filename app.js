@@ -10,7 +10,8 @@ var express = require('express')
 
 var app = express();
 
-// all environments
+
+
 app.set('port', process.env.PORT || 5555);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
@@ -21,7 +22,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 
-// development only
+
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
