@@ -31,7 +31,7 @@ app.locals({
     title: 'LogicalPath Geanie'    // default title
 });
 
-// Routes
+// The Routes
 
 app.get('/', routes.site.index);
 app.get('/persons', routes.persons.list);
