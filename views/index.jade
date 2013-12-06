@@ -1,6 +1,7 @@
 extends layout
-
 block content
+    body(onload="draw();")
+
     h1= title
 
     p
@@ -10,3 +11,9 @@ block content
         strong
             | Get started:&nbsp;
             a(href='/persons') View all persons
+
+    p  
+            <canvas id="c1" width="200" heigth="128">
+            two squares
+            </canvas>
+

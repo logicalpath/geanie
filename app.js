@@ -33,6 +33,7 @@ app.locals({
 
 // The Routes
 
+
 app.get('/', routes.site.index);
 app.get('/persons', routes.persons.list);
 app.post('/persons', routes.persons.create);
