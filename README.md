@@ -7,7 +7,7 @@ Note that [Neo4j] (http://www.neo4j.org/download) is required for this app to ru
     npm install
 
 
-Thanks to this app (http://www.node-neo4j-template.com/) 
+Thanks to this app (https://github.com/aseemk/node-neo4j-template) 
 from [Asheem Kishore] (https://github.com/aseemk)
   
 For helping me get started.
