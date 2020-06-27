@@ -12,6 +12,8 @@ from [Asheem Kishore] (https://github.com/aseemk)
   
 For helping me get started.
 
+TODO: Change this to not use Neo4J
+
 
 MIT License
 
